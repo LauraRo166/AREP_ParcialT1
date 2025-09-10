@@ -58,10 +58,8 @@ public class BackendServer {
             }
 
             String path = request.split(" ")[1];
-            System.out.println("Backend: " + path);
 
             if (path.startsWith("/app")) {
-                System.out.println("Entra: " + path);
                 outputLine = responseRequest(path);
             } else {
                 outputLine = "HTTP/1.1 200 OK\r\n"
@@ -87,20 +85,19 @@ public class BackendServer {
     }
 
     private static String responseRequest(String path) {
-        System.out.println("Entra response: " + path);
         String request = path.split("/")[2];
         if (request.startsWith("add")) {
             String[] values = request.split("=");
             Double num = Double.parseDouble(values[1].split("%20")[1]);
             array.add(num);
             Integer sizeArray = array.size();
+            //Calculo estadisticas
             totalVal = Double.sum(num, totalVal);
             String nStr = String.valueOf(sizeArray);
             Double n2 = Double.parseDouble​(nStr);
             Double media = totalVal / n2;
             totalDesv = Double.sum(pow(num - media, 2.0), totalDesv);
 
-            System.out.println("Retorna");
             return "HTTP/1.1 200 OK\r\n"
                     + "Content-Type: application/json\r\n"
                     + "\r\n"
@@ -159,6 +156,12 @@ public class BackendServer {
                     + "\"count\": " + sizeArray + " \r\n"
                     + "}\r\n";
         }
-        return "";
+        return "HTTP/1.1 400 Bad Request\r\n"
+                + "Content-Type: application/json\r\n"
+                + "\r\n"
+                + "{\r\n"
+                + "\"status\": \"ERR\",\r\n"
+                + "\"error\": \"bad request\"\r\n"
+                + "}\r\n";
     }
 }

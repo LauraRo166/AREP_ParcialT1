@@ -56,13 +56,11 @@ public class FacadeServer {
                     break;
                 }
             }
-            System.out.println(request);
 
             String path = request.split(" ")[1];
             if (path.startsWith("/cliente")) {
                 outputLine = getIndex();
             } else if (path.startsWith("/request")) {
-                System.out.println(path);
                 outputLine = "HTTP/1.1 200 OK\r\n"
                         + "Content-Type: text/html\r\n"
                         + "\r\n"

@@ -1,1 +1,0 @@
-# AREP_ParcialT1
